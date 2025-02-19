@@ -129,27 +129,31 @@
     <div class="content-section">
         <h3>Pruebas iniciales</h3>
         <p>Para comprobar el funcionamiento de MoveIt, sigue los tutoriales de la página oficial mencionada anteriormente.</p>
-
-         <p>
-            A continuacion se  muestra un ejemplo de un ejercicio pick and place que se encuentra en: 
+    
+        <p>
+            A continuación se muestra un ejemplo de un ejercicio pick and place que se encuentra en: 
             <a href="https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-on-ubuntu-22-04" target="_blank" style="color: #4CAF50;">GitHub Diego</a>.
-           <br> Hay dos maneras de ejecutar el siguiente ejercicio, haciendo uso de la tarjeta gráfica para conseguir un mayor rendimeinto o sin usarla por lo que este será peor.
-              <p>Para probar Docker con GPU, usa:</p>
+            <br> Hay dos maneras de ejecutar el siguiente ejercicio, haciendo uso de la tarjeta gráfica para conseguir un mayor rendimiento o sin usarla, lo que hará que el rendimiento sea peor.
+        </p>
+    
+        <p>Para probar Docker con GPU, usa:</p>
         <code>docker run -it --device /dev/dri --gpus all -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix -v $HOME/.Xauthority:/root/.Xauthority -e XAUTHORITY=/root/.Xauthority --name ejercicio_pickplace diegomrt/pickplace_exercise_ros2:1.1</code>
+    
         <p>Sin GPU:</p>
         <code>docker run -it -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix -v $HOME/.Xauthority:/root/.Xauthority -e XAUTHORITY=/root/.Xauthority --name ejercicio_pickplace diegomrt/pickplace_exercise_ros2:1.1</code>
+    
         <p>Si el contenedor ya existe, elimínalo con:</p>
         <code>sudo docker stop ejercicio_pickplace</code>
-         <br> <br> <code>sudo docker rm ejercicio_pickplace</code>
-             <p>
-              <br> <br> A continuación, mostraré un video de la ejecucion sin hacer uso de la tarjeta grafica y se podrá comporbar lo despacio que va, incluso estando el video x4 hasta la ejecucion del ejercio donde se puede ver a tiempo real. podemos observar que los FPS apenas llega a 1.
-         <br>Durante la ejecucion se puede observar por la salida de terminal las acciones que está realizando el UR. 
-          <br>
-              <a href="https://urjc-my.sharepoint.com/:v:/g/personal/s_calvo_2022_alumnos_urjc_es/EaSLhKsYlKZMncPiQ45_YJABI2cqBl0kQ5j_HjHqiJhtsA?nav=eyJyZWZlcnJhbEluZm8iOnsicmVmZXJyYWxBcHAiOiJPbmVEcml2ZUZvckJ1c2luZXNzIiwicmVmZXJyYWxBcHBQbGF0Zm9ybSI6IldlYiIsInJlZmVycmFsTW9kZSI6InZpZXciLCJyZWZlcnJhbFZpZXciOiJNeUZpbGVzTGlua0NvcHkifX0&e=D8xr3a" target="_blank" style="color: #4CAF50;">Link video</a>.
-              </p>
-             
-        </p>
+        <br> <br> 
+        <code>sudo docker rm ejercicio_pickplace</code>
+    
+        <p>A continuación, mostraré un video de la ejecución sin hacer uso de la tarjeta gráfica y se podrá comprobar lo despacio que va, incluso con el video a x4, hasta la ejecución del ejercicio donde se puede ver a tiempo real. Podemos observar que los FPS apenas llegan a 1.</p>
         
+        <p>Durante la ejecución, se puede observar por la salida de terminal las acciones que está realizando el UR.</p>
+    
+        <p>
+            <a href="https://urjc-my.sharepoint.com/:v:/g/personal/s_calvo_2022_alumnos_urjc_es/EaSLhKsYlKZMncPiQ45_YJABI2cqBl0kQ5j_HjHqiJhtsA?nav=eyJyZWZlcnJhbEluZm8iOnsicmVmZXJyYWxBcHAiOiJPbmVEcml2ZUZvckJ1c2luZXNzIiwicmVmZXJyYWxBcHBQbGF0Zm9ybSI6IldlYiIsInJlZmVycmFsTW9kZSI6InZpZXciLCJyZWZlcnJhbFZpZXciOiJNeUZpbGVzTGlua0NvcHkifX0&e=D8xr3a" target="_blank" style="color: #4CAF50;">Link video</a>.
+        </p>
     </div>
 
 </div>
