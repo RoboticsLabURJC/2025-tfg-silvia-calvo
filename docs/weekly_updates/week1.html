@@ -173,83 +173,73 @@
         <p>
            In order to make the UR pick it up I added the actions to <strong>/root/demo_grasp_ros2_ur5.sh</strong>:
               <br> <br>
+            
              <code>
-                # YELLOW BOX 2 Pick and place
-                ros2 run ros2srrc_execution ExecuteProgram.py package:=ros2srrc_execution program:=ur5_robotiq85_grasp_yellow_pick2;
-                ros2 action send_goal -f /Move ros2srrc_data/action/Move "{action: 'MoveG', moveg: 20.0, speed: 0.1}";
-                ros2 service call /ATTACHLINK linkattacher_msgs/srv/AttachLink "{model1_name: 'ur5', link1_name: 'EE_robotiq_2f85', model2_name: 'yellow_box_small2', link2_name: 'yellow_box_small2'}"
-                ros2 run ros2srrc_execution ExecuteProgram.py package:=ros2srrc_execution program:=ur5_robotiq85_grasp_yellow_place;
-                ros2 service call /DETACHLINK linkattacher_msgs/srv/DetachLink "{model1_name: 'ur5', link1_name: 'EE_robotiq_2f85', model2_name: 'yellow_box_small2', link2_name: 'yellow_box_small2'}"
+                # YELLOW BOX 2 Pick and place <br>
+                ros2 run ros2srrc_execution ExecuteProgram.py package:=ros2srrc_execution program:=ur5_robotiq85_grasp_yellow_pick2;<br>
+                ros2 action send_goal -f /Move ros2srrc_data/action/Move "{action: 'MoveG', moveg: 20.0, speed: 0.1}";<br>
+                ros2 service call /ATTACHLINK linkattacher_msgs/srv/AttachLink "{model1_name: 'ur5', link1_name: 'EE_robotiq_2f85', model2_name: 'yellow_box_small2', link2_name: 'yellow_box_small2'}"<br>
+                ros2 run ros2srrc_execution ExecuteProgram.py package:=ros2srrc_execution program:=ur5_robotiq85_grasp_yellow_place;<br>
+                ros2 service call /DETACHLINK linkattacher_msgs/srv/DetachLink "{model1_name: 'ur5', link1_name: 'EE_robotiq_2f85', model2_name: 'yellow_box_small2', link2_name: 'yellow_box_small2'}"<br>
             </code>
             <br> <br>
           
               This uses a program called  <strong>ur5_robotiq85_grasp_yellow_pick2</strong> that we need to create in the following path:  <strong>/dev_ws/src/ros2_SimRealRobotControl/ros2srrc_execution/programs</strong>:
-             <code>
-                 Specifications:
-  Robot: "ur5"
-  EndEffector: "ParallelGripper"
-  EELink: "EE_robotiq_2f85"
-  Objects: ["blue_sphere_small", "red_box_small", "yellow_box_small", "green_cylinder_small"]
-  
-Sequence: 
-
-  - Step: 1
-    Name: "[Yamaha-Demo]: MoveJ - Go to HomePosition."
-    Type: "MoveJ"
-    Speed: 1.0
-    Delay: 0.0
-    Input:
-      joint1: 0.0
-      joint2: -90.0
-      joint3: 60.0
-      joint4: -60.0
-      joint5: -90.0
-      joint6: 0.0
-
-# ===== Parallel Gripper (Gazebo) - OPEN ===== #
-  - Step: 2
-    Name: "[Yamaha-Demo]: Open gripper"
-    Type: "ParallelGripper"
-    Action: "OPEN"
-    Delay: 0.0
-  
-  - Step: 3
-    Name: "[Yamaha-Demo]: MoveL to yellow box APROX point"
-    Type: "MoveL"
-    Speed: 1.0
-    Delay: 0.0
-    Input:
-      x: 0.175 # Este es el original
-      y: 0.192 # Este es el original
-      z: -0.32
-      
-  - Step: 4
-    Name: "[Yamaha-Demo]: MoveL to yellow box PICK point"
-    Type: "MoveL"
-    Speed: 0.3
-    Delay: 0.0
-    Input:
-      x: 0.0
-      y: 0.0
-      z: -0.08
-            </code>
-
+            <br> <br>
+<pre>
+    <code>
+        Specifications:
+          Robot: "ur5"
+          EndEffector: "ParallelGripper"
+          EELink: "EE_robotiq_2f85"
+          Objects: ["blue_sphere_small", "red_box_small", "yellow_box_small", "green_cylinder_small"]
+        
+        Sequence: 
+        
+          - Step: 1
+            Name: "[Yamaha-Demo]: MoveJ - Go to HomePosition."
+            Type: "MoveJ"
+            Speed: 1.0
+            Delay: 0.0
+            Input:
+              joint1: 0.0
+              joint2: -90.0
+              joint3: 60.0
+              joint4: -60.0
+              joint5: -90.0
+              joint6: 0.0
+        
+        # ===== Parallel Gripper (Gazebo) - OPEN ===== #
+          - Step: 2
+            Name: "[Yamaha-Demo]: Open gripper"
+            Type: "ParallelGripper"
+            Action: "OPEN"
+            Delay: 0.0
+        
+          - Step: 3
+            Name: "[Yamaha-Demo]: MoveL to yellow box APROX point"
+            Type: "MoveL"
+            Speed: 1.0
+            Delay: 0.0
+            Input:
+              x: 0.175 # Este es el original
+              y: 0.192 # Este es el original
+              z: -0.32
+        
+          - Step: 4
+            Name: "[Yamaha-Demo]: MoveL to yellow box PICK point"
+            Type: "MoveL"
+            Speed: 0.3
+            Delay: 0.0
+            Input:
+              x: 0.0
+              y: 0.0
+              z: -0.08
+     </code>
+</pre>
 
         </p>
-        <p>
-            Additionally, <strong>MoveIt</strong> needs to be installed. To start with the installation and configuration, you can follow the official tutorials here: 
-            <a href="https://moveit.picknik.ai/main/doc/tutorials/getting_started/getting_started.html" target="_blank" style="color: #4CAF50;">MoveIt Tutorial</a>.
-        </p>
-        <p>
-            You will also need to install <strong>Docker</strong>. You can find the installation steps for Ubuntu 22.04 at the following link: 
-            <a href="https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-on-ubuntu-22-04" target="_blank" style="color: #4CAF50;">Install Docker on Ubuntu 22.04</a>.
-            You can configure Docker so you don’t have to use sudo to run it as root, or you can use sudo in the commands. In my videos, you will see that I use sudo.
-        </p>
-        <p>
-            To visualize and compare graphical performance, it is recommended to use <strong>glxgears</strong>. This tool allows you to measure your system's graphics performance. To install it, use the following command: <br>
-            <br><code>sudo apt install mesa-utils</code>. <br><br> Then, to run it, simply type in a terminal:
-            <br><br><code>glxgears</code>.
-        </p>
+    
     </div>
 
 
