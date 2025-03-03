@@ -165,7 +165,15 @@
         <p>
             In order to check how the simulation works I added a new box, first I recycle the yellow box and place it near the other one. To do so, I edit <strong>/root/spawn_objects_small.sh</strong> and add the following line: 
             <br> <br>
-            <code>
+            
+            <code>ros2 run ros2srrc_execution SpawnObject.py --package "ros2srrc_irb120_gazebo" --urdf "yellow_box_small.urdf" --name "yellow_box_small2" --x 0.6 --y 0.6 --z 1.01;</code>
+            
+           
+        </p>
+        <p>
+           In order to make the UR pick it up I added the actions to <strong>/root/demo_grasp_ros2_ur5.sh</strong>:
+              <br> <br>
+             <code>
                 # YELLOW BOX 2 Pick and place
                 ros2 run ros2srrc_execution ExecuteProgram.py package:=ros2srrc_execution program:=ur5_robotiq85_grasp_yellow_pick2;
                 ros2 action send_goal -f /Move ros2srrc_data/action/Move "{action: 'MoveG', moveg: 20.0, speed: 0.1}";
@@ -174,19 +182,59 @@
                 ros2 service call /DETACHLINK linkattacher_msgs/srv/DetachLink "{model1_name: 'ur5', link1_name: 'EE_robotiq_2f85', model2_name: 'yellow_box_small2', link2_name: 'yellow_box_small2'}"
             </code>
             <br> <br>
-            This uses a program called  <strong>ur5_robotiq85_grasp_yellow_pick2</strong> that we need to create in the following path:  <strong>/dev_ws/src/ros2_SimRealRobotControl/ros2srrc_execution/programs</strong> y poner lo siguiente:
+          
+              This uses a program called  <strong>ur5_robotiq85_grasp_yellow_pick2</strong> that we need to create in the following path:  <strong>/dev_ws/src/ros2_SimRealRobotControl/ros2srrc_execution/programs</strong>:
              <code>
+                 Specifications:
+  Robot: "ur5"
+  EndEffector: "ParallelGripper"
+  EELink: "EE_robotiq_2f85"
+  Objects: ["blue_sphere_small", "red_box_small", "yellow_box_small", "green_cylinder_small"]
+  
+Sequence: 
+
+  - Step: 1
+    Name: "[Yamaha-Demo]: MoveJ - Go to HomePosition."
+    Type: "MoveJ"
+    Speed: 1.0
+    Delay: 0.0
+    Input:
+      joint1: 0.0
+      joint2: -90.0
+      joint3: 60.0
+      joint4: -60.0
+      joint5: -90.0
+      joint6: 0.0
+
+# ===== Parallel Gripper (Gazebo) - OPEN ===== #
+  - Step: 2
+    Name: "[Yamaha-Demo]: Open gripper"
+    Type: "ParallelGripper"
+    Action: "OPEN"
+    Delay: 0.0
+  
+  - Step: 3
+    Name: "[Yamaha-Demo]: MoveL to yellow box APROX point"
+    Type: "MoveL"
+    Speed: 1.0
+    Delay: 0.0
+    Input:
+      x: 0.175 # Este es el original
+      y: 0.192 # Este es el original
+      z: -0.32
+      
+  - Step: 4
+    Name: "[Yamaha-Demo]: MoveL to yellow box PICK point"
+    Type: "MoveL"
+    Speed: 0.3
+    Delay: 0.0
+    Input:
+      x: 0.0
+      y: 0.0
+      z: -0.08
+            </code>
 
 
-                 
-             </code>
-            
-        </p>
-        <p>
-           In order to make the UR pick it up I added the actions to <strong>/root/demo_grasp_ros2_ur5.sh</strong>:
-              <br> <br>
-            <code>ros2 run ros2srrc_execution SpawnObject.py --package "ros2srrc_irb120_gazebo" --urdf "yellow_box_small.urdf" --name "yellow_box_small2" --x 0.6 --y 0.6 --z 1.01;</code>
-            
         </p>
         <p>
             Additionally, <strong>MoveIt</strong> needs to be installed. To start with the installation and configuration, you can follow the official tutorials here: 
