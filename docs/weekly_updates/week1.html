@@ -138,7 +138,7 @@
         <p>
             Below is an example of a pick and place exercise found at: 
             <a href="https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-on-ubuntu-22-04" target="_blank" style="color: #4CAF50;">GitHub Diego</a>.
-            <br> There are two ways to run this exercise: using the graphics card for better performance or without it, which will result in lower performance.
+            <br> There are two ways to run this exercise: using GPU for better performance or without it, which will result in lower performance.
         </p>
     
         <p>To test Docker with GPU, use:</p>
@@ -158,6 +158,52 @@
             <a href="https://urjc-my.sharepoint.com/:v:/g/personal/s_calvo_2022_alumnos_urjc_es/EaSLhKsYlKZMncPiQ45_YJABI2cqBl0kQ5j_HjHqiJhtsA?nav=eyJyZWZlcnJhbEluZm8iOnsicmVmZXJyYWxBcHAiOiJPbmVEcml2ZUZvckJ1c2luZXNzIiwicmVmZXJyYWxBcHBQbGF0Zm9ybSI6IldlYiIsInJlZmVycmFsTW9kZSI6InZpZXciLCJyZWZlcnJhbFZpZXciOiJNeUZpbGVzTGlua0NvcHkifX0&e=D8xr3a" target="_blank" style="color: #4CAF50;">Link video</a>.
         </p>
     </div>
+
+
+     <div class="content-section">
+        <h3>Adding an object to pick</h3>
+        <p>
+            In order to check how the simulation works I added a new box, first I recycle the yellow box and place it near the other one. To do so, I edit <strong>/root/spawn_objects_small.sh</strong> and add the following line: 
+            <br> <br>
+            <code>
+                # YELLOW BOX 2 Pick and place
+                ros2 run ros2srrc_execution ExecuteProgram.py package:=ros2srrc_execution program:=ur5_robotiq85_grasp_yellow_pick2;
+                ros2 action send_goal -f /Move ros2srrc_data/action/Move "{action: 'MoveG', moveg: 20.0, speed: 0.1}";
+                ros2 service call /ATTACHLINK linkattacher_msgs/srv/AttachLink "{model1_name: 'ur5', link1_name: 'EE_robotiq_2f85', model2_name: 'yellow_box_small2', link2_name: 'yellow_box_small2'}"
+                ros2 run ros2srrc_execution ExecuteProgram.py package:=ros2srrc_execution program:=ur5_robotiq85_grasp_yellow_place;
+                ros2 service call /DETACHLINK linkattacher_msgs/srv/DetachLink "{model1_name: 'ur5', link1_name: 'EE_robotiq_2f85', model2_name: 'yellow_box_small2', link2_name: 'yellow_box_small2'}"
+            </code>
+            <br> <br>
+            This uses a program called  <strong>ur5_robotiq85_grasp_yellow_pick2</strong> that we need to create in the following path:  <strong>/dev_ws/src/ros2_SimRealRobotControl/ros2srrc_execution/programs</strong> y poner lo siguiente:
+             <code>
+
+
+                 
+             </code>
+            
+        </p>
+        <p>
+           In order to make the UR pick it up I added the actions to <strong>/root/demo_grasp_ros2_ur5.sh</strong>:
+              <br> <br>
+            <code>ros2 run ros2srrc_execution SpawnObject.py --package "ros2srrc_irb120_gazebo" --urdf "yellow_box_small.urdf" --name "yellow_box_small2" --x 0.6 --y 0.6 --z 1.01;</code>
+            
+        </p>
+        <p>
+            Additionally, <strong>MoveIt</strong> needs to be installed. To start with the installation and configuration, you can follow the official tutorials here: 
+            <a href="https://moveit.picknik.ai/main/doc/tutorials/getting_started/getting_started.html" target="_blank" style="color: #4CAF50;">MoveIt Tutorial</a>.
+        </p>
+        <p>
+            You will also need to install <strong>Docker</strong>. You can find the installation steps for Ubuntu 22.04 at the following link: 
+            <a href="https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-on-ubuntu-22-04" target="_blank" style="color: #4CAF50;">Install Docker on Ubuntu 22.04</a>.
+            You can configure Docker so you don’t have to use sudo to run it as root, or you can use sudo in the commands. In my videos, you will see that I use sudo.
+        </p>
+        <p>
+            To visualize and compare graphical performance, it is recommended to use <strong>glxgears</strong>. This tool allows you to measure your system's graphics performance. To install it, use the following command: <br>
+            <br><code>sudo apt install mesa-utils</code>. <br><br> Then, to run it, simply type in a terminal:
+            <br><br><code>glxgears</code>.
+        </p>
+    </div>
+
 
 </div>
 
