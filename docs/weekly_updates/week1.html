@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
     <meta charset="ISO-8859-1">
     <title>TFG Silvia Calvo</title>
@@ -24,6 +24,7 @@
             width: 100%;
             top: 0;
             z-index: 1000;
+            text-align: center;
         }
         header img {
             position: absolute;
@@ -31,6 +32,11 @@
             left: 20px;
             width: 75px; 
             height: auto;
+        }
+        header h2 {
+            margin: 0;
+            text-align: center;
+            flex: 1;
         }
         .sidebar {
             height: calc(100vh - 100px);
@@ -92,65 +98,62 @@
 </header>
 
 <div class="sidebar">
-    <img src="../images/me_picture.png" alt="Mi Foto">
+    <img src="../images/me_picture.png" alt="My Photo">
     <h4>Silvia Calvo Cabello</h4>
-    <p>Ingeniería Robótica Software URJC</p>
+    <p>Software Robotics Engineering URJC</p>
 
     <p>Email: <a href="mailto:s.calvo.2022@alumnos.urjc.es">s.calvo.2022</a></p>
 </div>
 
 <div class="content-container">
     <div class="content-section">
-        <h3>Requisitos iniciales</h3>
+        <h3>Initial Requirements</h3>
         <p>
-            El sistema operativo a utilizar es <strong>Ubuntu 22.04</strong>.
+            The operating system to be used is <strong>Ubuntu 22.04</strong>.
         </p>
         <p>
-            Es necesario tener instalado <strong>ROS2 HUMBLE</strong> en tu ordenador. Para ello, puedes seguir los pasos detallados en la documentación oficial: 
-            <a href="https://docs.ros.org/en/humble/Installation.html" target="_blank" style="color: #4CAF50;">Instalación de ROS2 HUMBLE</a>.
+            It is necessary to have <strong>ROS2 HUMBLE</strong> installed on your computer. To do this, you can follow the steps detailed in the official documentation: 
+            <a href="https://docs.ros.org/en/humble/Installation.html" target="_blank" style="color: #4CAF50;">ROS2 HUMBLE Installation</a>.
         </p>
         <p>
-            Además, es necesario instalar <strong>MoveIt</strong>. Para comenzar con la instalación y configuración, puedes seguir los tutoriales oficiales aquí: 
-            <a href="https://moveit.picknik.ai/main/doc/tutorials/getting_started/getting_started.html" target="_blank" style="color: #4CAF50;">Tutorial MoveIt</a>.
+            Additionally, <strong>MoveIt</strong> needs to be installed. To start with the installation and configuration, you can follow the official tutorials here: 
+            <a href="https://moveit.picknik.ai/main/doc/tutorials/getting_started/getting_started.html" target="_blank" style="color: #4CAF50;">MoveIt Tutorial</a>.
         </p>
         <p>
-            También necesitarás instalar <strong>Docker</strong>. Puedes encontrar los pasos de instalación para Ubuntu 22.04 en el siguiente enlace: 
-            <a href="https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-on-ubuntu-22-04" target="_blank" style="color: #4CAF50;">Instalar Docker en Ubuntu 22.04</a>.
-            Puedes configurar el docker para que no tengas que usar sudo y lo ejecutes desde root o puedes usar sudo en los comando. En mis videos se podrá observar que yo uso sudo.
-        
+            You will also need to install <strong>Docker</strong>. You can find the installation steps for Ubuntu 22.04 at the following link: 
+            <a href="https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-on-ubuntu-22-04" target="_blank" style="color: #4CAF50;">Install Docker on Ubuntu 22.04</a>.
+            You can configure Docker so you don’t have to use sudo to run it as root, or you can use sudo in the commands. In my videos, you will see that I use sudo.
         </p>
         <p>
-            Para la visualización y comparación del rendimiento gráfico, se recomienda usar <strong>glxgears</strong>. Esta herramienta te permitirá medir el rendimiento gráfico de tu sistema. Para instalarla, usa el siguiente comando: <br>
-            <br><code>sudo apt install mesa-utils</code>. <br><br> Luego, para ejecutarlo, solo tienes que en una terminal escribir:
+            To visualize and compare graphical performance, it is recommended to use <strong>glxgears</strong>. This tool allows you to measure your system's graphics performance. To install it, use the following command: <br>
+            <br><code>sudo apt install mesa-utils</code>. <br><br> Then, to run it, simply type in a terminal:
             <br><br><code>glxgears</code>.
         </p>
     </div>
-    
+
     <div class="content-section">
-        <h3>Pruebas iniciales</h3>
-        <p>Para comprobar el funcionamiento de MoveIt, sigue los tutoriales de la página oficial mencionada anteriormente.</p>
+        <h3>Initial Tests</h3>
+        <p>To check the functionality of MoveIt, follow the tutorials on the official page mentioned earlier.</p>
     
         <p>
-            A continuación se muestra un ejemplo de un ejercicio pick and place que se encuentra en: 
+            Below is an example of a pick and place exercise found at: 
             <a href="https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-on-ubuntu-22-04" target="_blank" style="color: #4CAF50;">GitHub Diego</a>.
-            <br> Hay dos maneras de ejecutar el siguiente ejercicio, haciendo uso de la tarjeta gráfica para conseguir un mayor rendimiento o sin usarla, lo que hará que el rendimiento sea peor.
+            <br> There are two ways to run this exercise: using the graphics card for better performance or without it, which will result in lower performance.
         </p>
     
-        <p>Para probar Docker con GPU, usa:</p>
+        <p>To test Docker with GPU, use:</p>
         <code>docker run -it --device /dev/dri --gpus all -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix -v $HOME/.Xauthority:/root/.Xauthority -e XAUTHORITY=/root/.Xauthority --name ejercicio_pickplace diegomrt/pickplace_exercise_ros2:1.1</code>
     
-        <p>Sin GPU:</p>
+        <p>Without GPU:</p>
         <code>docker run -it -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix -v $HOME/.Xauthority:/root/.Xauthority -e XAUTHORITY=/root/.Xauthority --name ejercicio_pickplace diegomrt/pickplace_exercise_ros2:1.1</code>
     
-        <p>Si el contenedor ya existe, elimínalo con:</p>
+        <p>If the container already exists, remove it with:</p>
         <code>sudo docker stop ejercicio_pickplace</code>
         <br> <br> 
         <code>sudo docker rm ejercicio_pickplace</code>
-    
-        <p>A continuación, mostraré un video de la ejecución sin hacer uso de la tarjeta gráfica y se podrá comprobar lo despacio que va, incluso con el video a x4, hasta la ejecución del ejercicio donde se puede ver a tiempo real. Podemos observar que los FPS apenas llegan a 1.</p>
-        
-        <p>Durante la ejecución, se puede observar por la salida de terminal las acciones que está realizando el UR.</p>
-    
+
+    <p>Below, I will show a video of the execution without GPU, where you can see how slow it runs, even with the video at 4x speed, until the exercise execution, which can be seen in real-time. We can observe that the FPS barely reach 1.</p> 
+        <p>During the execution, the terminal output shows the actions being performed by the UR.</p>
         <p>
             <a href="https://urjc-my.sharepoint.com/:v:/g/personal/s_calvo_2022_alumnos_urjc_es/EaSLhKsYlKZMncPiQ45_YJABI2cqBl0kQ5j_HjHqiJhtsA?nav=eyJyZWZlcnJhbEluZm8iOnsicmVmZXJyYWxBcHAiOiJPbmVEcml2ZUZvckJ1c2luZXNzIiwicmVmZXJyYWxBcHBQbGF0Zm9ybSI6IldlYiIsInJlZmVycmFsTW9kZSI6InZpZXciLCJyZWZlcnJhbFZpZXciOiJNeUZpbGVzTGlua0NvcHkifX0&e=D8xr3a" target="_blank" style="color: #4CAF50;">Link video</a>.
         </p>
