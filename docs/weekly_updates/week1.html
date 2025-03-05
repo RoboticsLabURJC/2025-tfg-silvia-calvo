@@ -195,7 +195,6 @@ Specifications:
   Objects: ["blue_sphere_small", "red_box_small", "yellow_box_small", "green_cylinder_small"]
   
 Sequence: 
-
   - Step: 1
     Name: "[Grasp-Demo]: MoveJ - Go to HomePosition."
     Type: "MoveJ"
@@ -208,14 +207,11 @@ Sequence:
       joint4: -60.0
       joint5: -90.0
       joint6: 0.0
-
-# ===== Parallel Gripper (Gazebo) - OPEN ===== #
   - Step: 2
     Name: "[Grasp-Demo]: Open gripper"
     Type: "ParallelGripper"
     Action: "OPEN"
     Delay: 0.0
-  
   - Step: 3
     Name: "[Grasp-Demo]: MoveL to yellow box APROX point"
     Type: "MoveL"
@@ -225,8 +221,16 @@ Sequence:
       x: 0.175
       y: 0.392
       z: -0.32
-
   - Step: 4
+    Name: "[Grasp-Demo]: MoveROT 90º in roll"
+    Type: "MoveROT"
+    Speed: 1.0
+    Delay: 0.0
+    Input:
+      yaw: 0.0
+      pitch: 0.0
+      roll: 90.0
+  - Step: 5
     Name: "[Grasp-Demo]: MoveL to yellow box PICK point"
     Type: "MoveL"
     Speed: 0.3
@@ -235,7 +239,6 @@ Sequence:
       x: 0.0
       y: 0.0
       z: -0.08
-    
 
      </code>
 </pre>
