@@ -166,7 +166,7 @@
             In order to check how the simulation works I added a new box, first I recycle the yellow box and place it near the other one. To do so, I edit <strong>/root/spawn_objects_small.sh</strong> and add the following line: 
             <br> <br>
             
-            <code>ros2 run ros2srrc_execution SpawnObject.py --package "ros2srrc_irb120_gazebo" --urdf "yellow_box_small.urdf" --name "yellow_box_small2" --x 0.6 --y 0.6 --z 1.01;</code>
+            <code>ros2 run ros2srrc_execution SpawnObject.py --package "ros2srrc_irb120_gazebo" --urdf "yellow_box_small.urdf" --name "yellow_box_small2" --x 0.6 --y 0.5 --z 1.01;</code>
             
            
         </p>
@@ -192,7 +192,7 @@
           Robot: "ur5"
           EndEffector: "ParallelGripper"
           EELink: "EE_robotiq_2f85"
-          Objects: ["blue_sphere_small", "red_box_small", "yellow_box_small", "green_cylinder_small"]
+          Objects: ["blue_sphere_small", "red_box_small", "yellow_box_small", "green_cylinder_small","yellow_box_small2"]
         
         Sequence: 
         
@@ -239,6 +239,9 @@
 </pre>
 
         </p>
+         <p>Now we need to make colcon build. Go to root/dev_ws/ and execute colcon build --packages-select ros2srrc_execution And follow relaunch the simulation again.</p>
+        
+
     
     </div>
 
