@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="ISO-8859-1">
+    <title>TFG Silvia Calvo</title>
+   <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #202124; 
+            color: white; 
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            <!-- padding: 20px; -->
+        }
+        header {
+            background-color: rgba(0, 0, 0, 0.7);
+            height: 100px; 
+            display: flex;
+            justify-content: center; 
+            align-items: center; 
+            position: relative;
+        }
+        header img {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            width: 75px; 
+            height: auto;
+        }
+        header h2 {
+            margin: 0;
+            text-align: center;
+            flex: 1;
+        }
+        .sidebar {
+            height: calc(100vh - 100px);
+            position: fixed;
+            top: 100px; 
+            width: 175px;
+            left: 0px;
+            padding: 20px;
+            background-color: rgba(0, 0, 0, 0.7);
+            margin-right: 5px;
+        }
+        .sidebar img {
+            width: 100px; 
+            height: auto;
+            margin-bottom: 10px; 
+        }
+        a {
+            color: white;
+            text-decoration: none;
+        }
+        .content-container {
+            flex: 1;
+            margin-left: 200px;
+            padding: 20px;
+            margin-top: 120px;
+        }
+        .content-section {
+            background-color: rgba(255, 255, 255, 0.1);
+            border: 2px solid #fff;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+        }
+        .content-section h3 {
+            font-size: 1.8em;
+            margin: 0;
+            color: #ffffff;
+            text-align: center;
+        }
+        .content-section p {
+            font-size: 1em;
+            color: #cccccc;
+            margin-top: 10px;
+        }
+        .content-section code {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: #81C784;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-family: monospace;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <img src="../images/logo.png" alt="Logo"> 
+    <h2>ROBOTICS LABS URJC - TFG</h2>
+</header>
+
+<div class="sidebar">
+    <img src="../images/me_picture.png" alt="My Photo">
+    <h4>Silvia Calvo Cabello</h4>
+    <p>Software Robotics Engineering URJC</p>
+
+    <p>Email: <a href="mailto:s.calvo.2022@alumnos.urjc.es">s.calvo.2022</a></p>
+</div>
+
+<div class="content-container">
+
+     <div class="content-section">
+        <h3>Adding an object to pick</h3>
+        <p>
+            In order to check how the simulation works I added a new box, first I recycle the yellow box and place it near the other one. To do so, I edit <strong>/root/spawn_objects_small.sh</strong> and add the following line: 
+            <br> <br>
+            
+            <code>ros2 run ros2srrc_execution SpawnObject.py --package "ros2srrc_irb120_gazebo" --urdf "yellow_box_small.urdf" --name "yellow_box_small2" --x 0.6 --y 0.5 --z 1.01;</code>
+            
+           
+        </p>
+        <p>
+           In order to make the UR pick it up I added the actions to <strong>/root/demo_grasp_ros2_ur5.sh</strong>:
+              <br> <br>
+            
+             <code>
+                # YELLOW BOX 2 Pick and place
+                    ros2 run ros2srrc_execution ExecuteProgram.py package:=ros2srrc_execution program:=ur5_robotiq85_grasp_yellow_pick2;
+
+                    ros2 action send_goal -f /Move ros2srrc_data/action/Move "{action: 'MoveG', moveg: 20.0, speed: 0.1}";
+
+                    ros2 service call /ATTACHLINK linkattacher_msgs/srv/AttachLink "{model1_name: 'ur5', link1_name: 'EE_robotiq_2f85', model2_name: 'yellow_box_small2', link2_name: 'yellow_box_small'}"
+
+                    ros2 run ros2srrc_execution ExecuteProgram.py package:=ros2srrc_execution program:=ur5_robotiq85_grasp_yellow_place;
+
+                    ros2 service call /DETACHLINK linkattacher_msgs/srv/DetachLink "{model1_name: 'ur5', link1_name: 'EE_robotiq_2f85', model2_name: 'yellow_box_small2', link2_name: 'yellow_box_small'}"
+
+            </code>
+            <br> <br>
+          
+              This uses a program called  <strong>ur5_robotiq85_grasp_yellow_pick2.yaml</strong> that we need to create in the following path:  <strong>root/dev_ws/src/ros2_SimRealRobotControl/ros2srrc_execution/programs</strong>:
+            <br> <br> or download this file and add it: [Ver archivo YAML](src/example_codes/ur5_robotiq85_grasp_yellow_pick2.yaml)
+
+<pre>
+    <code>
+Specifications:
+  Robot: "ur5"
+  EndEffector: "ParallelGripper"
+  EELink: "EE_robotiq_2f85"
+  Objects: ["blue_sphere_small", "red_box_small", "yellow_box_small", "green_cylinder_small" , "yellow_box_small2"]
+  
+Sequence: 
+  - Step: 1
+    Name: "[Grasp-Demo]: MoveJ - Go to HomePosition."
+    Type: "MoveJ"
+    Speed: 1.0
+    Delay: 0.0
+    Input:
+      joint1: 0.0
+      joint2: -90.0
+      joint3: 60.0
+      joint4: -60.0
+      joint5: -90.0
+      joint6: 0.0
+  - Step: 2
+    Name: "[Grasp-Demo]: Open gripper"
+    Type: "ParallelGripper"
+    Action: "OPEN"
+    Delay: 0.0
+  - Step: 3
+    Name: "[Grasp-Demo]: MoveL to yellow box APROX point"
+    Type: "MoveL"
+    Speed: 1.0
+    Delay: 0.0
+    Input:
+      x: 0.175
+      y: 0.392
+      z: -0.32
+  - Step: 4
+    Name: "[Grasp-Demo]: MoveROT 90º in roll"
+    Type: "MoveROT"
+    Speed: 1.0
+    Delay: 0.0
+    Input:
+      yaw: 0.0
+      pitch: 0.0
+      roll: 90.0
+  - Step: 5
+    Name: "[Grasp-Demo]: MoveL to yellow box PICK point"
+    Type: "MoveL"
+    Speed: 0.3
+    Delay: 0.0
+    Input:
+      x: 0.0
+      y: 0.0
+      z: -0.08
+
+     </code>
+</pre>
+
+        </p>
+         <p>Now we need to make colcon build. Go to <strong>root/dev_ws/<strong> and execute:<br> <br>
+<code>colcon build --packages-select ros2srrc_execution</code>
+<br> <br>And restart the simulation again.</p> 
+
+
+          <a href="https://urjc-my.sharepoint.com/:v:/g/personal/s_calvo_2022_alumnos_urjc_es/EQ40lmg_xJlIqFkyFDq8USoBAvv9MZhgygNSGfi8xqpAIw?nav=eyJyZWZlcnJhbEluZm8iOnsicmVmZXJyYWxBcHAiOiJPbmVEcml2ZUZvckJ1c2luZXNzIiwicmVmZXJyYWxBcHBQbGF0Zm9ybSI6IldlYiIsInJlZmVycmFsTW9kZSI6InZpZXciLCJyZWZlcnJhbFZpZXciOiJNeUZpbGVzTGlua0NvcHkifX0&e=ateoZi" target="_blank" style="color: #4CAF50;">Link video</a>.
+
+    
+    </div>
+
+
+</div>
+
+</body>
+</html>
