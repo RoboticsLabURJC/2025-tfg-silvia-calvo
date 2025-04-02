@@ -125,8 +125,8 @@
         </p>
         <p>
             To visualize and compare graphical performance, it is recommended to use <strong>glxgears</strong>. This tool allows you to measure your system's graphics performance. To install it, use the following command: <br>
-            <br><code>sudo apt install mesa-utils</code>. <br><br> Then, to run it, simply type in a terminal:
-            <br><br><code>glxgears</code>.
+            <br><pre>sudo apt install mesa-utils</pre>. <br><br> Then, to run it, simply type in a terminal:
+            <br><br><pre>glxgears</pre>.
         </p>
     </div>
 
@@ -141,15 +141,15 @@
         </p>
     
         <p>To test Docker with GPU, use:</p>
-        <code>docker run -it --device /dev/dri --gpus all -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix -v $HOME/.Xauthority:/root/.Xauthority -e XAUTHORITY=/root/.Xauthority --name ejercicio_pickplace diegomrt/pickplace_exercise_ros2:1.1</code>
+        <pre>docker run -it --device /dev/dri --gpus all -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix -v $HOME/.Xauthority:/root/.Xauthority -e XAUTHORITY=/root/.Xauthority --name ejercicio_pickplace diegomrt/pickplace_exercise_ros2:1.1</pre>
     
         <p>Without GPU:</p>
-        <code>docker run -it -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix -v $HOME/.Xauthority:/root/.Xauthority -e XAUTHORITY=/root/.Xauthority --name ejercicio_pickplace diegomrt/pickplace_exercise_ros2:1.1</code>
+        <pre>docker run -it -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix -v $HOME/.Xauthority:/root/.Xauthority -e XAUTHORITY=/root/.Xauthority --name ejercicio_pickplace diegomrt/pickplace_exercise_ros2:1.1</pre>
     
         <p>If the container already exists, remove it with:</p>
-        <code>sudo docker stop ejercicio_pickplace</code>
+        <pre>sudo docker stop ejercicio_pickplace</pre>
         <br> <br> 
-        <code>sudo docker rm ejercicio_pickplace</code>
+        <pre>sudo docker rm ejercicio_pickplace</pre>
 
     <p>Below, I will show a video of the execution without GPU, where you can see how slow it runs, even with the video at 4x speed, until the exercise execution, which can be seen in real-time. We can observe that the FPS barely reach 1.</p> 
         <p>During the execution, the terminal output shows the actions being performed by the UR.</p>

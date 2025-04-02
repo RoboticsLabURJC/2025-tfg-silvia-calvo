@@ -112,7 +112,7 @@
             In order to check how the simulation works I added a new box, first I recycle the yellow box and place it near the other one. To do so, I edit <strong>/root/spawn_objects_small.sh</strong> and add the following line: 
             <br> <br>
             
-            <code>ros2 run ros2srrc_execution SpawnObject.py --package "ros2srrc_irb120_gazebo" --urdf "yellow_box_small.urdf" --name "yellow_box_small2" --x 0.6 --y 0.5 --z 1.01;</code>
+            <pre>ros2 run ros2srrc_execution SpawnObject.py --package "ros2srrc_irb120_gazebo" --urdf "yellow_box_small.urdf" --name "yellow_box_small2" --x 0.6 --y 0.5 --z 1.01;</pre>
             
            
         </p>
@@ -120,7 +120,7 @@
            In order to make the UR pick it up I added the actions to <strong>/root/demo_grasp_ros2_ur5.sh</strong>:
               <br> <br>
             
-             <code>
+             <pre>
                 # YELLOW BOX 2 Pick and place
                     ros2 run ros2srrc_execution ExecuteProgram.py package:=ros2srrc_execution program:=ur5_robotiq85_grasp_yellow_pick2;
 
@@ -132,14 +132,14 @@
 
                     ros2 service call /DETACHLINK linkattacher_msgs/srv/DetachLink "{model1_name: 'ur5', link1_name: 'EE_robotiq_2f85', model2_name: 'yellow_box_small2', link2_name: 'yellow_box_small'}"
 
-            </code>
+            </pre>
             <br> <br>
           
               This uses a program called  <strong>ur5_robotiq85_grasp_yellow_pick2.yaml</strong> that we need to create in the following path:  <strong>root/dev_ws/src/ros2_SimRealRobotControl/ros2srrc_execution/programs</strong>:
             <br> <br> or download this file and add it: <a href="src/example_codes/ur5_robotiq85_grasp_yellow_pick2.yaml" download>See YAML file</a>
 
 <pre>
-    <code>
+    <pre>
 Specifications:
   Robot: "ur5"
   EndEffector: "ParallelGripper"
@@ -192,12 +192,12 @@ Sequence:
       y: 0.0
       z: -0.08
 
-     </code>
+     </pre>
 </pre>
 
         </p>
          <p>Now we need to make colcon build. Go to <strong>root/dev_ws/<strong> and execute:<br> <br>
-<code>colcon build --packages-select ros2srrc_execution</code>
+<pre>colcon build --packages-select ros2srrc_execution</pre>
 <br> <br>And restart the simulation again.</p> 
 
 
