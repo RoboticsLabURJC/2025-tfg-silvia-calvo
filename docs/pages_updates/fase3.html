@@ -3,7 +3,7 @@
 <head>
     <meta charset="ISO-8859-1">
     <title>TFG Silvia Calvo</title>
-   <style>
+    <style>
         body {
             margin: 0;
             font-family: Arial, sans-serif;
@@ -12,7 +12,6 @@
             height: 100vh;
             display: flex;
             flex-direction: column;
-            <!-- padding: 20px; -->
         }
         header {
             background-color: rgba(0, 0, 0, 0.7);
@@ -46,7 +45,6 @@
             left: 0px;
             padding: 20px;
             background-color: rgba(0, 0, 0, 0.7);
-            margin-right: 5px;
         }
         .sidebar img {
             width: 100px; 
@@ -81,12 +79,13 @@
             color: #cccccc;
             margin-top: 10px;
         }
-        .content-section code {
-            background-color: rgba(255, 255, 255, 0.1);
-            color: #81C784;
-            padding: 5px 10px;
+        pre {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 10px;
             border-radius: 5px;
-            font-family: monospace;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
         }
     </style>
 </head>
@@ -101,69 +100,49 @@
     <img src="../images/me_picture.png" alt="My Photo">
     <h4>Silvia Calvo Cabello</h4>
     <p>Software Robotics Engineering URJC</p>
-
     <p>Email: <a href="mailto:s.calvo.2022@alumnos.urjc.es">s.calvo.2022</a></p>
 </div>
 
 <div class="content-container">
+    <div class="content-section">
+        <h3>Adding ROS2 Node to Create Collision</h3>
+        <p>Move to <code>root/dev_ws/src</code> and create a new package:</p>
+        <pre>ros2 pkg create \
+    --build-type ament_cmake \
+    --dependencies moveit_ros_planning_interface rclcpp \
+    --node-name colision_test colision_test</pre>
+        
+        <p>Add the following code to <code>colision_test.cpp</code>:</p>
+        <pre>#include <memory>
 
-     <div class="content-section">
-        <h3>Adding ros2 node to create colision</h3>
-        <p>
-            Move to root/dev_ws/src and create a new package
-            <br> <br>
-            
-            <code>ros2 pkg create \
-                --build-type ament_cmake \
-                --dependencies moveit_ros_planning_interface rclcpp \
-                --node-name colision_test colision_test
-            </code>
-            
-           
-        </p>
-        <p>
-           Add the following code to the colision_test.cpp<br> <br>
-            
-             <code>
-                    #include <memory>
+#include <rclcpp/rclcpp.hpp>
+#include <moveit/move_group_interface/move_group_interface.h>
 
-                    #include <rclcpp/rclcpp.hpp>
-                    #include <moveit/move_group_interface/move_group_interface.h>
-                    
-                    int main(int argc, char * argv[])
-                    {
-                      // Initialize ROS and create the Node
-                      rclcpp::init(argc, argv);
-                      auto const node = std::make_shared<rclcpp::Node>(
-                        "collision_test",
-                        rclcpp::NodeOptions().automatically_declare_parameters_from_overrides(true)
-                      );
-                    
-                      // Create a ROS logger
-                      auto const logger = rclcpp::get_logger("collision_test");
-                    
-                       // Create the MoveIt MoveGroup Interface
-                        using moveit::planning_interface::MoveGroupInterface;
-                        auto move_group_interface = MoveGroupInterface(node, "ur5_arm");
-                      // Shutdown ROS
-                      rclcpp::shutdown();
-                      return 0;
-                    }
-                                        
-            </code>
-            <br> <br>
-            In order to know what it is the name of the MoveGroupINterface I used:
-
-
-            <br> <br>
-        <code>
-            find root/dev_ws/src -name ros2srrc_ur5_moveit2
-            cd root/dev_ws/src/ros2_SimRealRobotControl/packages/ur5/ros2srrc_ur5_moveit2/config/
-            cat ur5.srdf
-        </code>
-          
-
-
+int main(int argc, char * argv[]) {
+    // Initialize ROS and create the Node
+    rclcpp::init(argc, argv);
+    auto const node = std::make_shared<rclcpp::Node>(
+        "collision_test",
+        rclcpp::NodeOptions().automatically_declare_parameters_from_overrides(true)
+    );
+    
+    // Create a ROS logger
+    auto const logger = rclcpp::get_logger("collision_test");
+    
+    // Create the MoveIt MoveGroup Interface
+    using moveit::planning_interface::MoveGroupInterface;
+    auto move_group_interface = MoveGroupInterface(node, "ur5_arm");
+    
+    // Shutdown ROS
+    rclcpp::shutdown();
+    return 0;
+}</pre>
+        
+        <p>In order to know the name of the <code>MoveGroupInterface</code>, I used:</p>
+        <pre>find root/dev_ws/src -name ros2srrc_ur5_moveit2
+cd root/dev_ws/src/ros2_SimRealRobotControl/packages/ur5/ros2srrc_ur5_moveit2/config/
+cat ur5.srdf</pre>
+    </div>
 </div>
 
 </body>
