@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="ISO-8859-1">
+    <title>TFG Silvia Calvo</title>
+   <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #202124; 
+            color: white; 
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            <!-- padding: 20px; -->
+        }
+        header {
+            background-color: rgba(0, 0, 0, 0.7);
+            height: 100px; 
+            display: flex;
+            justify-content: center; 
+            align-items: center; 
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            text-align: center;
+        }
+        header img {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            width: 75px; 
+            height: auto;
+        }
+        header h2 {
+            margin: 0;
+            text-align: center;
+            flex: 1;
+        }
+        .sidebar {
+            height: calc(100vh - 100px);
+            position: fixed;
+            top: 100px; 
+            width: 175px;
+            left: 0px;
+            padding: 20px;
+            background-color: rgba(0, 0, 0, 0.7);
+            margin-right: 5px;
+        }
+        .sidebar img {
+            width: 100px; 
+            height: auto;
+            margin-bottom: 10px; 
+        }
+        a {
+            color: white;
+            text-decoration: none;
+        }
+        .content-container {
+            flex: 1;
+            margin-left: 200px;
+            padding: 20px;
+            margin-top: 120px;
+        }
+        .content-section {
+            background-color: rgba(255, 255, 255, 0.1);
+            border: 2px solid #fff;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+        }
+        .content-section h3 {
+            font-size: 1.8em;
+            margin: 0;
+            color: #ffffff;
+            text-align: center;
+        }
+        .content-section p {
+            font-size: 1em;
+            color: #cccccc;
+            margin-top: 10px;
+        }
+        .content-section code {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: #81C784;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-family: monospace;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <img src="../images/logo.png" alt="Logo"> 
+    <h2>ROBOTICS LABS URJC - TFG</h2>
+</header>
+
+<div class="sidebar">
+    <img src="../images/me_picture.png" alt="My Photo">
+    <h4>Silvia Calvo Cabello</h4>
+    <p>Software Robotics Engineering URJC</p>
+
+    <p>Email: <a href="mailto:s.calvo.2022@alumnos.urjc.es">s.calvo.2022</a></p>
+</div>
+
+<div class="content-container">
+
+     <div class="content-section">
+        <h3>Adding ros2 node to create colision</h3>
+        <p>
+            Move to root/dev_ws/src and create a new package
+            <br> <br>
+            
+            <code>ros2 pkg create \
+                --build-type ament_cmake \
+                --dependencies moveit_ros_planning_interface rclcpp \
+                --node-name colision_test colision_test
+            </code>
+            
+           
+        </p>
+        <p>
+           Add the following code to the colision_test.cpp<br> <br>
+            
+             <code>
+                    #include <memory>
+
+                    #include <rclcpp/rclcpp.hpp>
+                    #include <moveit/move_group_interface/move_group_interface.h>
+                    
+                    int main(int argc, char * argv[])
+                    {
+                      // Initialize ROS and create the Node
+                      rclcpp::init(argc, argv);
+                      auto const node = std::make_shared<rclcpp::Node>(
+                        "collision_test",
+                        rclcpp::NodeOptions().automatically_declare_parameters_from_overrides(true)
+                      );
+                    
+                      // Create a ROS logger
+                      auto const logger = rclcpp::get_logger("collision_test");
+                    
+                       // Create the MoveIt MoveGroup Interface
+                        using moveit::planning_interface::MoveGroupInterface;
+                        auto move_group_interface = MoveGroupInterface(node, "ur5_arm");
+                      // Shutdown ROS
+                      rclcpp::shutdown();
+                      return 0;
+                    }
+                                        
+            </code>
+            <br> <br>
+            In order to know what it is the name of the MoveGroupINterface I used:
+
+
+            <br> <br>
+        <code>
+            find root/dev_ws/src -name ros2srrc_ur5_moveit2
+            cd root/dev_ws/src/ros2_SimRealRobotControl/packages/ur5/ros2srrc_ur5_moveit2/config/
+            cat ur5.srdf
+        </code>
+          
+
+
+</div>
+
+</body>
+</html>
