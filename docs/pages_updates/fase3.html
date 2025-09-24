@@ -105,43 +105,13 @@
 
 <div class="content-container">
     <div class="content-section">
-        <h3>Adding ROS2 Node to Create Collision</h3>
-        <p>Move to <code>root/dev_ws/src</code> and create a new package:</p>
-        <pre>ros2 pkg create \
-    --build-type ament_cmake \
-    --dependencies moveit_ros_planning_interface rclcpp \
-    --node-name colision_test colision_test</pre>
-        
-        <p>Add the following code to <code>colision_test.cpp</code>:</p>
-        <pre>#include <memory>
+        <h3>Adding an object to create a collision</h3>
+<p>
+    Open RViz and go to the Scene Objects tab in the Motion Planning panel. I added a wall to the left side of the arm (as shown below). This way, when running the simulation, the system will accept the goal of the movement, but during planning it will report failure, since the arm cannot reach the other side without colliding with the wall (as seen below).
+</p>
+<img src="../images/fase3_01.png" alt="RViz Scene Object Example">
+<img src="../images/fase3_02.png" alt="RViz Collision Example">
 
-#include <rclcpp/rclcpp.hpp>
-#include <moveit/move_group_interface/move_group_interface.h>
-
-int main(int argc, char * argv[]) {
-    // Initialize ROS and create the Node
-    rclcpp::init(argc, argv);
-    auto const node = std::make_shared<rclcpp::Node>(
-        "collision_test",
-        rclcpp::NodeOptions().automatically_declare_parameters_from_overrides(true)
-    );
-    
-    // Create a ROS logger
-    auto const logger = rclcpp::get_logger("collision_test");
-    
-    // Create the MoveIt MoveGroup Interface
-    using moveit::planning_interface::MoveGroupInterface;
-    auto move_group_interface = MoveGroupInterface(node, "ur5_arm");
-    
-    // Shutdown ROS
-    rclcpp::shutdown();
-    return 0;
-}</pre>
-        
-        <p>In order to know the name of the <code>MoveGroupInterface</code>, I used:</p>
-        <pre>find root/dev_ws/src -name ros2srrc_ur5_moveit2
-cd root/dev_ws/src/ros2_SimRealRobotControl/packages/ur5/ros2srrc_ur5_moveit2/config/
-cat ur5.srdf</pre>
     </div>
 </div>
 
